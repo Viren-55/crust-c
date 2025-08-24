@@ -55,3 +55,23 @@ class SearchResponse(BaseModel):
     total_found: int
     search_time_ms: int
     icp: ICP
+
+class DecisionMaker(BaseModel):
+    """Decision maker profile from people search"""
+    name: str
+    title: str
+    linkedin_profile_url: Optional[str] = None
+    flagship_profile_url: Optional[str] = None
+    email: Optional[str] = None
+    location: Optional[str] = None
+    headline: Optional[str] = None
+    profile_picture_url: Optional[str] = None
+    company_name: Optional[str] = None
+    is_decision_maker: bool = False
+    
+class PeopleResponse(BaseModel):
+    """Response from people search for a company"""
+    decision_makers: List[DecisionMaker]
+    company_name: str
+    company_domain: str
+    total_found: int

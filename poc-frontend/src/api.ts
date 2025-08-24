@@ -30,6 +30,34 @@ export interface SearchResponse {
   icp: ICP;
 }
 
+export interface DecisionMaker {
+  name: string;
+  title: string;
+  linkedin_profile_url?: string;
+  flagship_profile_url?: string;
+  email?: string;
+  location?: string;
+  headline?: string;
+  profile_picture_url?: string;
+  company_name?: string;
+  is_decision_maker: boolean;
+}
+
+export interface PeopleResponse {
+  decision_makers: DecisionMaker[];
+  company_name: string;
+  company_domain: string;
+  total_found: number;
+}
+
+export interface EmailRequest {
+  recipient_email: string;
+  recipient_name: string;
+  recipient_title: string;
+  company_name: string;
+  linkedin_profile_url?: string;
+}
+
 /**
  * Search for companies based on ICP criteria
  */
@@ -70,6 +98,45 @@ export async function getAvailableIndustries(): Promise<string[]> {
 export async function getCompanyDetails(domain: string): Promise<any> {
   const response = await fetch(`${API_BASE_URL}/company/${domain}`);
   
+  if (!response.ok) {
+    const errorData = await response.json().catch(() => ({}));
+    throw new Error(errorData.detail || `HTTP error! status: ${response.status}`);
+  }
+
+  return response.json();
+}
+
+/**
+ * Get decision makers for a company
+ */
+export async function getCompanyDecisionMakers(domain: string, companyName?: string): Promise<PeopleResponse> {
+  const url = new URL(`${API_BASE_URL}/company/${domain}/people`);
+  if (companyName) {
+    url.searchParams.append('company_name', companyName);
+  }
+  
+  const response = await fetch(url.toString());
+  
+  if (!response.ok) {
+    const errorData = await response.json().catch(() => ({}));
+    throw new Error(errorData.detail || `HTTP error! status: ${response.status}`);
+  }
+
+  return response.json();
+}
+
+/**
+ * Send personalized email to a decision maker
+ */
+export async function sendPersonalizedEmail(emailRequest: EmailRequest): Promise<any> {
+  const response = await fetch(`${API_BASE_URL}/send-email`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(emailRequest),
+  });
+
   if (!response.ok) {
     const errorData = await response.json().catch(() => ({}));
     throw new Error(errorData.detail || `HTTP error! status: ${response.status}`);

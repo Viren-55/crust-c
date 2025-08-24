@@ -10,10 +10,12 @@ from typing import List
 import time
 import asyncio
 from dotenv import load_dotenv
+from pydantic import BaseModel
 
-from models import ICP, CompanyResult, SearchResponse
+from models import ICP, CompanyResult, SearchResponse, PeopleResponse
 from crust_service import CrustService
 from scoring_service import ScoringService
+from people_service import PeopleService
 
 # Load environment variables
 load_dotenv()
@@ -37,6 +39,7 @@ app.add_middleware(
 # Initialize services
 crust_service = CrustService()
 scoring_service = ScoringService()
+people_service = PeopleService()
 
 @app.get("/")
 async def root():
@@ -47,10 +50,20 @@ async def root():
         "version": "1.0.0",
         "endpoints": [
             "/search-companies",
+            "/company/{domain}/people",
+            "/send-email",
             "/company/{domain}",
             "/health"
         ]
     }
+
+# Email request model
+class EmailRequest(BaseModel):
+    recipient_email: str
+    recipient_name: str
+    recipient_title: str
+    company_name: str
+    linkedin_profile_url: str = None
 
 @app.get("/health")
 async def health_check():
@@ -114,6 +127,120 @@ async def search_companies(icp: ICP):
         raise HTTPException(
             status_code=500,
             detail=f"Error searching companies: {str(e)}"
+        )
+
+@app.get("/company/{domain}/people", response_model=PeopleResponse)
+async def get_company_decision_makers(domain: str, company_name: str = None):
+    """
+    Get decision makers for a specific company
+    
+    - **domain**: Company domain (e.g., hubspot.com)
+    - **company_name**: Optional company name for better search results
+    
+    Returns top 5 decision makers from the company
+    """
+    
+    try:
+        print(f"👥 Getting decision makers for company: {domain}")
+        
+        # If company name not provided, try to extract from domain
+        if not company_name:
+            company_name = domain.replace('.com', '').replace('.', ' ').title()
+        
+        # Find decision makers using people service
+        decision_makers = await people_service.find_decision_makers(company_name, domain)
+        
+        if not decision_makers:
+            print(f"⚠️ No decision makers found for {domain}")
+        
+        response = PeopleResponse(
+            decision_makers=decision_makers,
+            company_name=company_name,
+            company_domain=domain,
+            total_found=len(decision_makers)
+        )
+        
+        print(f"   👥 Returning {len(decision_makers)} decision makers")
+        return response
+        
+    except Exception as e:
+        print(f"❌ Error getting decision makers: {str(e)}")
+        raise HTTPException(
+            status_code=500,
+            detail=f"Error getting decision makers: {str(e)}"
+        )
+
+@app.post("/send-email")
+async def send_personalized_email(email_request: EmailRequest):
+    """
+    Send personalized email to a decision maker
+    
+    - **recipient_email**: Email address of the recipient
+    - **recipient_name**: Full name of the recipient
+    - **recipient_title**: Job title of the recipient
+    - **company_name**: Company name
+    - **linkedin_profile_url**: Optional LinkedIn profile URL
+    
+    Returns email sending status
+    """
+    
+    try:
+        print(f"📧 Sending personalized email to {email_request.recipient_name} at {email_request.company_name}")
+        
+        # Import and use the personalized email sender
+        import subprocess
+        import json
+        
+        # Prepare the profile data for the email sender
+        profile_data = {
+            "product_vision": "Our cutting-edge POC Outreach Workflow helps businesses discover ideal customers, score prospects, and send personalized outreach emails at scale using AI-powered insights from Crust Data.",
+            "linkedin_profile": json.dumps([{
+                "business_email": [email_request.recipient_email],
+                "current_employers": [{
+                    "employer_name": email_request.company_name,
+                    "business_emails": {
+                        email_request.recipient_email: {
+                            "verification_status": "verified",
+                            "last_validated_at": "2025-01-24"
+                        }
+                    }
+                }],
+                "name": email_request.recipient_name,
+                "title": email_request.recipient_title,
+                "linkedin_profile_url": email_request.linkedin_profile_url or ""
+            }])
+        }
+        
+        # Call the personalized email sender
+        process = subprocess.run(
+            ["python", "../personlized_email_sender.py"],
+            input=json.dumps(profile_data),
+            text=True,
+            capture_output=True,
+            cwd="/Users/birendra/Downloads/crust_data/crust-c"
+        )
+        
+        if process.returncode == 0:
+            print(f"   ✅ Email sent successfully to {email_request.recipient_email}")
+            return {
+                "status": "success",
+                "message": f"Personalized email sent to {email_request.recipient_name}",
+                "recipient": email_request.recipient_email
+            }
+        else:
+            error_msg = process.stderr.strip() or "Unknown error"
+            print(f"   ❌ Email sending failed: {error_msg}")
+            return {
+                "status": "error", 
+                "message": f"Failed to send email: {error_msg}",
+                "recipient": email_request.recipient_email
+            }
+        
+    except Exception as e:
+        print(f"❌ Error sending email: {str(e)}")
+        raise HTTPException(
+            status_code=500,
+            detail=f"Error sending email: {str(e)}"
         )
 
 @app.get("/company/{domain}")
