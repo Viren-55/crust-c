@@ -64,6 +64,7 @@ class EmailRequest(BaseModel):
     recipient_title: str
     company_name: str
     linkedin_profile_url: str = None
+    product_vision: str = "Our cutting-edge solutions help businesses grow and succeed"
 
 @app.get("/health")
 async def health_check():
@@ -180,12 +181,15 @@ async def send_personalized_email(email_request: EmailRequest):
     - **recipient_title**: Job title of the recipient
     - **company_name**: Company name
     - **linkedin_profile_url**: Optional LinkedIn profile URL
+    - **product_vision**: Product/service description for personalized outreach
     
     Returns email sending status
     """
     
     try:
         print(f"📧 Sending personalized email to {email_request.recipient_name} at {email_request.company_name}")
+        print(f"📧 Recipient Email: {email_request.recipient_email}")
+        print(f"📧 Product Vision: {email_request.product_vision}")
         
         # Import and use the personalized email sender
         import subprocess
@@ -193,7 +197,7 @@ async def send_personalized_email(email_request: EmailRequest):
         
         # Prepare the profile data for the email sender
         profile_data = {
-            "product_vision": "Our cutting-edge POC Outreach Workflow helps businesses discover ideal customers, score prospects, and send personalized outreach emails at scale using AI-powered insights from Crust Data.",
+            "product_vision": email_request.product_vision,
             "linkedin_profile": json.dumps([{
                 "business_email": [email_request.recipient_email],
                 "current_employers": [{
@@ -211,21 +215,58 @@ async def send_personalized_email(email_request: EmailRequest):
             }])
         }
         
-        # Call the personalized email sender
+        print(f"📧 Email Payload Data:")
+        print(f"   Product Vision: {profile_data['product_vision']}")
+        print(f"   Recipient: {email_request.recipient_name} ({email_request.recipient_title})")
+        print(f"   Company: {email_request.company_name}")
+        print(f"   Email: {email_request.recipient_email}")
+        print(f"   LinkedIn: {email_request.linkedin_profile_url or 'Not provided'}")
+        
+        # Call the personalized email sender using the virtual environment
         process = subprocess.run(
-            ["python", "../personlized_email_sender.py"],
+            ["/Users/birendra/Downloads/crust_data/crust-c/venv/bin/python", "personlized_email_sender.py"],
             input=json.dumps(profile_data),
             text=True,
             capture_output=True,
             cwd="/Users/birendra/Downloads/crust_data/crust-c"
         )
         
+        print(f"📧 Email Sender Response (Return Code: {process.returncode}):")
+        if process.stdout:
+            print("=== STDOUT ===")
+            print(process.stdout)
+            print("=== END STDOUT ===")
+        if process.stderr:
+            print("=== STDERR ===") 
+            print(process.stderr)
+            print("=== END STDERR ===")
+        
         if process.returncode == 0:
             print(f"   ✅ Email sent successfully to {email_request.recipient_email}")
+            
+            # Extract email content from output for API response
+            output_lines = process.stdout.split('\n') if process.stdout else []
+            subject_line = ""
+            email_body = ""
+            
+            for i, line in enumerate(output_lines):
+                if "Subject:" in line:
+                    subject_line = line.replace("Subject:", "").strip()
+                elif "HTML Body:" in line and i + 1 < len(output_lines):
+                    # Capture the next few lines after "HTML Body:"
+                    for j in range(i + 1, min(i + 10, len(output_lines))):
+                        if output_lines[j].strip() and not output_lines[j].startswith("---"):
+                            email_body += output_lines[j] + "\n"
+                        if output_lines[j].startswith("---"):
+                            break
+            
             return {
                 "status": "success",
                 "message": f"Personalized email sent to {email_request.recipient_name}",
-                "recipient": email_request.recipient_email
+                "recipient": email_request.recipient_email,
+                "email_subject": subject_line,
+                "email_body_preview": email_body[:300] + "..." if len(email_body) > 300 else email_body,
+                "full_output": process.stdout
             }
         else:
             error_msg = process.stderr.strip() or "Unknown error"

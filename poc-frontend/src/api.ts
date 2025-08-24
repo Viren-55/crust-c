@@ -56,6 +56,7 @@ export interface EmailRequest {
   recipient_title: string;
   company_name: string;
   linkedin_profile_url?: string;
+  product_vision: string;
 }
 
 /**

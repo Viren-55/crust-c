@@ -13,6 +13,9 @@ function SimpleApp() {
   const [loadingDecisionMakers, setLoadingDecisionMakers] = useState<Set<string>>(new Set());
   const [sendingEmails, setSendingEmails] = useState<Set<string>>(new Set());
   
+  // Product vision for email customization
+  const [productVision, setProductVision] = useState<string>("Our innovative solutions help businesses streamline operations and drive growth");
+  
   // ICP Form State
   const [icp, setIcp] = useState<ICP>({
     industries: ['Technology'],
@@ -131,16 +134,23 @@ function SimpleApp() {
     try {
       console.log(`📧 Sending email to ${decisionMaker.name} at ${decisionMaker.email}`);
       
-      await sendPersonalizedEmail({
+      const response = await sendPersonalizedEmail({
         recipient_email: decisionMaker.email,
         recipient_name: decisionMaker.name,
         recipient_title: decisionMaker.title,
         company_name: companyName,
-        linkedin_profile_url: decisionMaker.linkedin_profile_url
+        linkedin_profile_url: decisionMaker.linkedin_profile_url,
+        product_vision: productVision
       });
       
-      alert(`✅ Personalized email sent to ${decisionMaker.name} at ${decisionMaker.email}!`);
+      // Show detailed success message with email content
+      const successMessage = `✅ Email sent to ${decisionMaker.name}!\n\n` +
+        `Subject: ${response.email_subject || 'N/A'}\n\n` +
+        `Preview: ${response.email_body_preview || 'Email content generated'}`;
+      
+      alert(successMessage);
       console.log(`✅ Email sent successfully to ${decisionMaker.email}`);
+      console.log('📧 Email Response:', response);
     } catch (err) {
       console.error(`❌ Error sending email to ${decisionMaker.email}:`, err);
       alert(`❌ Failed to send email to ${decisionMaker.name}: ${err instanceof Error ? err.message : 'Unknown error'}`);
@@ -161,6 +171,28 @@ function SimpleApp() {
         <p style={{ fontSize: '1.1rem', color: '#6b7280' }}>
           Discover and score companies using Crust Data intelligence
         </p>
+      </div>
+
+      {/* Product Vision Form */}
+      <div className="form-container" style={{ marginBottom: '2rem' }}>
+        <h2 style={{ fontSize: '1.5rem', fontWeight: '600', marginBottom: '1.5rem', color: '#1f2937' }}>
+          💡 Product Vision for Outreach
+        </h2>
+        
+        <div className="form-group">
+          <label className="form-label">What are you selling?</label>
+          <textarea
+            className="form-input"
+            value={productVision}
+            onChange={(e) => setProductVision(e.target.value)}
+            placeholder="e.g., HR management software, healthcare diagnostic tools, marketing automation platform..."
+            rows={3}
+            style={{ resize: 'vertical', minHeight: '80px' }}
+          />
+          <div style={{ fontSize: '0.875rem', color: '#6b7280', marginTop: '0.5rem' }}>
+            This will be used to personalize your outreach emails. Be specific about your product/service and its benefits.
+          </div>
+        </div>
       </div>
 
       {/* ICP Form */}
@@ -461,26 +493,52 @@ function SimpleApp() {
                     paddingTop: '1.5rem',
                     borderTop: '1px solid #e5e7eb'
                   }}>
-                    <h4 style={{ 
-                      fontSize: '1rem', 
-                      fontWeight: '600', 
-                      color: '#1f2937', 
-                      marginBottom: '1rem',
-                      display: 'flex',
-                      alignItems: 'center',
-                      gap: '0.5rem'
-                    }}>
-                      👥 Decision Makers
-                      {companyDecisionMakers[company.domain] && (
-                        <span style={{ 
+                    <div style={{ marginBottom: '1rem' }}>
+                      <h4 style={{ 
+                        fontSize: '1rem', 
+                        fontWeight: '600', 
+                        color: '#1f2937', 
+                        marginBottom: '0.5rem',
+                        display: 'flex',
+                        alignItems: 'center',
+                        gap: '0.5rem'
+                      }}>
+                        👥 Decision Makers
+                        {companyDecisionMakers[company.domain] && (
+                          <span style={{ 
+                            fontSize: '0.75rem', 
+                            color: '#6b7280', 
+                            fontWeight: '400' 
+                          }}>
+                            ({companyDecisionMakers[company.domain].total_found} found)
+                          </span>
+                        )}
+                      </h4>
+                      
+                      <div style={{
+                        backgroundColor: '#f0f9ff',
+                        border: '1px solid #bae6fd',
+                        borderRadius: '6px',
+                        padding: '0.75rem',
+                        marginBottom: '0.5rem'
+                      }}>
+                        <div style={{ 
                           fontSize: '0.75rem', 
-                          color: '#6b7280', 
-                          fontWeight: '400' 
+                          color: '#0369a1', 
+                          fontWeight: '500', 
+                          marginBottom: '0.25rem' 
                         }}>
-                          ({companyDecisionMakers[company.domain].total_found} found)
-                        </span>
-                      )}
-                    </h4>
+                          📧 Email Product Vision:
+                        </div>
+                        <div style={{ 
+                          fontSize: '0.8rem', 
+                          color: '#1e40af', 
+                          fontStyle: 'italic' 
+                        }}>
+                          "{productVision}"
+                        </div>
+                      </div>
+                    </div>
                     
                     {loadingDecisionMakers.has(company.domain) ? (
                       <div style={{ textAlign: 'center', padding: '2rem' }}>
