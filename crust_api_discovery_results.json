@@ -1,0 +1,266 @@
+{
+  "client_status": {
+    "api_base_url": "https://api.crustdata.com",
+    "docs_base_url": "https://fulldocs.crustdata.com",
+    "api_authenticated": true,
+    "docs_authenticated": true,
+    "token_configured": true,
+    "credentials_configured": true
+  },
+  "connectivity_test": {
+    "timestamp": "2025-08-24T13:09:24.563908",
+    "api_base_url": "https://api.crustdata.com",
+    "docs_base_url": "https://fulldocs.crustdata.com",
+    "token_available": true,
+    "credentials_available": true,
+    "tests": {
+      "api_base": {
+        "status_code": 200,
+        "success": true,
+        "content_type": "text/html",
+        "response_size": 128646
+      },
+      "docs_base": {
+        "status_code": 200,
+        "success": true,
+        "content_type": "text/html; charset=utf-8",
+        "response_size": 39195,
+        "appears_authenticated": false
+      }
+    }
+  },
+  "discovered_endpoints": [
+    {
+      "method": "GET",
+      "endpoint": "/companies",
+      "description": "Company data",
+      "url": "https://api.crustdata.com/companies",
+      "status_code": 404,
+      "content_type": "text/html",
+      "content_length": 179,
+      "successful": false,
+      "json_response": false
+    },
+    {
+      "method": "GET",
+      "endpoint": "/people",
+      "description": "People/contacts data",
+      "url": "https://api.crustdata.com/people",
+      "status_code": 404,
+      "content_type": "text/html",
+      "content_length": 179,
+      "successful": false,
+      "json_response": false
+    },
+    {
+      "method": "GET",
+      "endpoint": "/organizations",
+      "description": "Organization data",
+      "url": "https://api.crustdata.com/organizations",
+      "status_code": 404,
+      "content_type": "text/html",
+      "content_length": 179,
+      "successful": false,
+      "json_response": false
+    },
+    {
+      "method": "GET",
+      "endpoint": "/search",
+      "description": "Search functionality",
+      "url": "https://api.crustdata.com/search",
+      "status_code": 404,
+      "content_type": "text/html",
+      "content_length": 179,
+      "successful": false,
+      "json_response": false
+    },
+    {
+      "method": "GET",
+      "endpoint": "/data",
+      "description": "General data endpoint",
+      "url": "https://api.crustdata.com/data",
+      "status_code": 404,
+      "content_type": "text/html",
+      "content_length": 179,
+      "successful": false,
+      "json_response": false
+    },
+    {
+      "method": "GET",
+      "endpoint": "/datasets",
+      "description": "Available datasets",
+      "url": "https://api.crustdata.com/datasets",
+      "status_code": 404,
+      "content_type": "text/html",
+      "content_length": 179,
+      "successful": false,
+      "json_response": false
+    },
+    {
+      "method": "GET",
+      "endpoint": "/v1/companies",
+      "description": "V1 Company data",
+      "url": "https://api.crustdata.com/v1/companies",
+      "status_code": 404,
+      "content_type": "text/html",
+      "content_length": 179,
+      "successful": false,
+      "json_response": false
+    },
+    {
+      "method": "GET",
+      "endpoint": "/v1/people",
+      "description": "V1 People data",
+      "url": "https://api.crustdata.com/v1/people",
+      "status_code": 404,
+      "content_type": "text/html",
+      "content_length": 179,
+      "successful": false,
+      "json_response": false
+    },
+    {
+      "method": "GET",
+      "endpoint": "/v1/search",
+      "description": "V1 Search",
+      "url": "https://api.crustdata.com/v1/search",
+      "status_code": 404,
+      "content_type": "text/html",
+      "content_length": 179,
+      "successful": false,
+      "json_response": false
+    },
+    {
+      "method": "GET",
+      "endpoint": "/v1/data",
+      "description": "V1 Data",
+      "url": "https://api.crustdata.com/v1/data",
+      "status_code": 404,
+      "content_type": "text/html",
+      "content_length": 179,
+      "successful": false,
+      "json_response": false
+    },
+    {
+      "method": "GET",
+      "endpoint": "/api/companies",
+      "description": "API Company data",
+      "url": "https://api.crustdata.com/api/companies",
+      "status_code": 404,
+      "content_type": "text/html",
+      "content_length": 179,
+      "successful": false,
+      "json_response": false
+    },
+    {
+      "method": "GET",
+      "endpoint": "/api/people",
+      "description": "API People data",
+      "url": "https://api.crustdata.com/api/people",
+      "status_code": 404,
+      "content_type": "text/html",
+      "content_length": 179,
+      "successful": false,
+      "json_response": false
+    },
+    {
+      "method": "GET",
+      "endpoint": "/api/search",
+      "description": "API Search",
+      "url": "https://api.crustdata.com/api/search",
+      "status_code": 404,
+      "content_type": "text/html",
+      "content_length": 179,
+      "successful": false,
+      "json_response": false
+    },
+    {
+      "method": "GET",
+      "endpoint": "/api/data",
+      "description": "API Data",
+      "url": "https://api.crustdata.com/api/data",
+      "status_code": 404,
+      "content_type": "text/html",
+      "content_length": 179,
+      "successful": false,
+      "json_response": false
+    },
+    {
+      "method": "POST",
+      "endpoint": "/graphql",
+      "description": "GraphQL endpoint",
+      "url": "https://api.crustdata.com/graphql",
+      "status_code": 404,
+      "content_type": "text/html",
+      "content_length": 179,
+      "successful": false,
+      "json_response": false
+    },
+    {
+      "method": "GET",
+      "endpoint": "/graphql",
+      "description": "GraphQL endpoint (GET)",
+      "url": "https://api.crustdata.com/graphql",
+      "status_code": 404,
+      "content_type": "text/html",
+      "content_length": 179,
+      "successful": false,
+      "json_response": false
+    },
+    {
+      "method": "GET",
+      "endpoint": "/schema",
+      "description": "API Schema",
+      "url": "https://api.crustdata.com/schema",
+      "status_code": 404,
+      "content_type": "text/html",
+      "content_length": 179,
+      "successful": false,
+      "json_response": false
+    },
+    {
+      "method": "GET",
+      "endpoint": "/swagger.json",
+      "description": "Swagger documentation",
+      "url": "https://api.crustdata.com/swagger.json",
+      "status_code": 404,
+      "content_type": "text/html",
+      "content_length": 179,
+      "successful": false,
+      "json_response": false
+    },
+    {
+      "method": "GET",
+      "endpoint": "/openapi.json",
+      "description": "OpenAPI documentation",
+      "url": "https://api.crustdata.com/openapi.json",
+      "status_code": 404,
+      "content_type": "text/html",
+      "content_length": 179,
+      "successful": false,
+      "json_response": false
+    },
+    {
+      "method": "GET",
+      "endpoint": "/health",
+      "description": "Health check",
+      "url": "https://api.crustdata.com/health",
+      "status_code": 404,
+      "content_type": "text/html",
+      "content_length": 179,
+      "successful": false,
+      "json_response": false
+    },
+    {
+      "method": "GET",
+      "endpoint": "/version",
+      "description": "Version information",
+      "url": "https://api.crustdata.com/version",
+      "status_code": 404,
+      "content_type": "text/html",
+      "content_length": 179,
+      "successful": false,
+      "json_response": false
+    }
+  ],
+  "timestamp": "2025-08-24T13:09:34.901211"
+}
