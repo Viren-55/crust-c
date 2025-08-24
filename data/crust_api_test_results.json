@@ -1,0 +1,264 @@
+{
+  "authentication": {
+    "bearer_token": {
+      "status_code": 404,
+      "success": false,
+      "response_length": 179
+    },
+    "api_key_header": {
+      "status_code": 404,
+      "success": false,
+      "response_length": 179
+    },
+    "basic_auth": {
+      "status_code": 200,
+      "success": true,
+      "response_length": 39195
+    }
+  },
+  "endpoints": {
+    "/v1/data_api": {
+      "url": "https://api.crustdata.com/v1/data",
+      "status_code": 404,
+      "content_type": "text/html",
+      "content_length": 179,
+      "success": false
+    },
+    "/v1/data_fulldocs": {
+      "url": "https://fulldocs.crustdata.com/v1/data",
+      "status_code": 200,
+      "content_type": "text/html; charset=utf-8",
+      "content_length": 39195,
+      "success": true
+    },
+    "/v1/datasets_api": {
+      "url": "https://api.crustdata.com/v1/datasets",
+      "status_code": 404,
+      "content_type": "text/html",
+      "content_length": 179,
+      "success": false
+    },
+    "/v1/datasets_fulldocs": {
+      "url": "https://fulldocs.crustdata.com/v1/datasets",
+      "status_code": 200,
+      "content_type": "text/html; charset=utf-8",
+      "content_length": 39195,
+      "success": true
+    },
+    "/v1/search_api": {
+      "url": "https://api.crustdata.com/v1/search",
+      "status_code": 404,
+      "content_type": "text/html",
+      "content_length": 179,
+      "success": false
+    },
+    "/v1/search_fulldocs": {
+      "url": "https://fulldocs.crustdata.com/v1/search",
+      "status_code": 200,
+      "content_type": "text/html; charset=utf-8",
+      "content_length": 39195,
+      "success": true
+    },
+    "/v1/companies_api": {
+      "url": "https://api.crustdata.com/v1/companies",
+      "status_code": 404,
+      "content_type": "text/html",
+      "content_length": 179,
+      "success": false
+    },
+    "/v1/companies_fulldocs": {
+      "url": "https://fulldocs.crustdata.com/v1/companies",
+      "status_code": 200,
+      "content_type": "text/html; charset=utf-8",
+      "content_length": 39195,
+      "success": true
+    },
+    "/v1/people_api": {
+      "url": "https://api.crustdata.com/v1/people",
+      "status_code": 404,
+      "content_type": "text/html",
+      "content_length": 179,
+      "success": false
+    },
+    "/v1/people_fulldocs": {
+      "url": "https://fulldocs.crustdata.com/v1/people",
+      "status_code": 200,
+      "content_type": "text/html; charset=utf-8",
+      "content_length": 39195,
+      "success": true
+    },
+    "/api/data_api": {
+      "url": "https://api.crustdata.com/api/data",
+      "status_code": 404,
+      "content_type": "text/html",
+      "content_length": 179,
+      "success": false
+    },
+    "/api/data_fulldocs": {
+      "url": "https://fulldocs.crustdata.com/api/data",
+      "status_code": 200,
+      "content_type": "text/html; charset=utf-8",
+      "content_length": 39195,
+      "success": true
+    },
+    "/api/search_api": {
+      "url": "https://api.crustdata.com/api/search",
+      "status_code": 404,
+      "content_type": "text/html",
+      "content_length": 179,
+      "success": false
+    },
+    "/api/search_fulldocs": {
+      "url": "https://fulldocs.crustdata.com/api/search",
+      "status_code": 200,
+      "content_type": "text/html; charset=utf-8",
+      "content_length": 39195,
+      "success": true
+    },
+    "/docs/api_api": {
+      "url": "https://api.crustdata.com/docs/api",
+      "status_code": 404,
+      "content_type": "text/html",
+      "content_length": 179,
+      "success": false
+    },
+    "/docs/api_fulldocs": {
+      "url": "https://fulldocs.crustdata.com/docs/api",
+      "status_code": 200,
+      "content_type": "text/html; charset=utf-8",
+      "content_length": 39195,
+      "success": true
+    },
+    "/docs/intro_api": {
+      "url": "https://api.crustdata.com/docs/intro",
+      "status_code": 404,
+      "content_type": "text/html",
+      "content_length": 179,
+      "success": false
+    },
+    "/docs/intro_fulldocs": {
+      "url": "https://fulldocs.crustdata.com/docs/intro",
+      "status_code": 200,
+      "content_type": "text/html; charset=utf-8",
+      "content_length": 39195,
+      "success": true
+    },
+    "/docs/api-reference_api": {
+      "url": "https://api.crustdata.com/docs/api-reference",
+      "status_code": 404,
+      "content_type": "text/html",
+      "content_length": 179,
+      "success": false
+    },
+    "/docs/api-reference_fulldocs": {
+      "url": "https://fulldocs.crustdata.com/docs/api-reference",
+      "status_code": 200,
+      "content_type": "text/html; charset=utf-8",
+      "content_length": 39195,
+      "success": true
+    }
+  },
+  "parameters": {
+    "params_test_1_api": {
+      "params": {
+        "limit": 10
+      },
+      "url": "https://api.crustdata.com/v1/data",
+      "status_code": 404,
+      "content_length": 179,
+      "success": false
+    },
+    "params_test_1_fulldocs": {
+      "params": {
+        "limit": 10
+      },
+      "url": "https://fulldocs.crustdata.com/api/data",
+      "status_code": 200,
+      "content_length": 39195,
+      "success": true
+    },
+    "params_test_2_api": {
+      "params": {
+        "format": "json"
+      },
+      "url": "https://api.crustdata.com/v1/data",
+      "status_code": 404,
+      "content_length": 179,
+      "success": false
+    },
+    "params_test_2_fulldocs": {
+      "params": {
+        "format": "json"
+      },
+      "url": "https://fulldocs.crustdata.com/api/data",
+      "status_code": 200,
+      "content_length": 39195,
+      "success": true
+    },
+    "params_test_3_api": {
+      "params": {
+        "page": 1,
+        "per_page": 5
+      },
+      "url": "https://api.crustdata.com/v1/data",
+      "status_code": 404,
+      "content_length": 179,
+      "success": false
+    },
+    "params_test_3_fulldocs": {
+      "params": {
+        "page": 1,
+        "per_page": 5
+      },
+      "url": "https://fulldocs.crustdata.com/api/data",
+      "status_code": 200,
+      "content_length": 39195,
+      "success": true
+    },
+    "params_test_4_api": {
+      "params": {
+        "search": "technology"
+      },
+      "url": "https://api.crustdata.com/v1/data",
+      "status_code": 404,
+      "content_length": 179,
+      "success": false
+    },
+    "params_test_4_fulldocs": {
+      "params": {
+        "search": "technology"
+      },
+      "url": "https://fulldocs.crustdata.com/api/data",
+      "status_code": 200,
+      "content_length": 39195,
+      "success": true
+    },
+    "params_test_5_api": {
+      "params": {
+        "category": "companies"
+      },
+      "url": "https://api.crustdata.com/v1/data",
+      "status_code": 404,
+      "content_length": 179,
+      "success": false
+    },
+    "params_test_5_fulldocs": {
+      "params": {
+        "category": "companies"
+      },
+      "url": "https://fulldocs.crustdata.com/api/data",
+      "status_code": 200,
+      "content_length": 39195,
+      "success": true
+    }
+  },
+  "summary": {
+    "auth_methods": 1,
+    "working_endpoints": 10,
+    "successful_params": 5,
+    "recommendations": [
+      "basic_auth",
+      "/v1/data_fulldocs"
+    ]
+  }
+}
